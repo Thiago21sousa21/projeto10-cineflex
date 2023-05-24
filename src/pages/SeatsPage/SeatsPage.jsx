@@ -1,16 +1,14 @@
 import styled from "styled-components"
 
 export default function SeatsPage(props) {
-    const {renderPages, setRenderPages} = props;
+    const {la} = props;
 
     function mudarPagina(){
-        const newRenderPages = ['none', 'none', 'flex', 'none'];
-        setRenderPages(newRenderPages);
     }
 
 
     return (
-        <PageContainer renderPages={renderPages} >
+        <PageContainer  >
             Selecione o(s) assento(s)
 
             <SeatsContainer>
@@ -61,7 +59,7 @@ export default function SeatsPage(props) {
 }
 
 const PageContainer = styled.div`
-    display:  ${props => props.renderPages};
+    display:  flex;
     flex-direction: column;
     align-items: center;
     font-family: 'Roboto';

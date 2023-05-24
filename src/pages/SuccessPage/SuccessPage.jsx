@@ -1,10 +1,10 @@
 import styled from "styled-components"
 
 export default function SuccessPage(props) {
-    const {renderPages} = props;
+    const {la} = props;
 
     return (
-        <PageContainer renderPages={renderPages} >
+        <PageContainer >
             <h1>Pedido feito <br /> com sucesso!</h1>
 
             <TextContainer>
@@ -32,7 +32,7 @@ export default function SuccessPage(props) {
 }
 
 const PageContainer = styled.div`
-    display: ${props => props.renderPages};
+    display: flex;
     flex-direction: column;
     align-items: center;
     font-family: 'Roboto';

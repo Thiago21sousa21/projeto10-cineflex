@@ -1,48 +1,48 @@
-import styled from "styled-components"
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+import axios from "axios";
 
 export default function SessionsPage(props) {
-    const {renderPages, setRenderPages} = props;
+    const { id } = props;
+    const [daysFilme, setDaysFilme] = useState([]);
+    const [nomeFilme, setNomeFilme] = useState([]);
+    const [imgFilme, setImgFilme] = useState([]);
 
-    function mudarPagina(){
-        const newRenderPages = ['none', 'none', 'none', 'flex'];
-        setRenderPages(newRenderPages);
-    }
+    console.log('ID DE SESSIONS PAGE', id);
+    //console.log( dataFilme);    
+
+    useEffect(() => {
+        const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${id}/showtimes`);
+        promise.then((answer) => {
+            console.log('RESPOSTA DAYS DO FILME POR ID (SESSIONN)', answer.data);
+            setDaysFilme(answer.data.days);
+            setNomeFilme(answer.data.title);
+            setImgFilme(answer.data.posterURL);
+        });
+        promise.catch(error => console.log(error));
+
+    }, []);
 
     return (
-        <PageContainer renderPages={renderPages} >
+        <PageContainer  >
             Selecione o horário
             <div>
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button onClick={mudarPagina}>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
-
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
-
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
+                {daysFilme && daysFilme.map((day) => (
+                    <SessionContainer key ={day.id}>
+                        {day.weekday} - {day.date}
+                        <ButtonsContainer>
+                            {day.showtimes.map((t)=>(<button key={t.id} >{t.name}</button>))}                     
+                        </ButtonsContainer>
+                    </SessionContainer>
+                ))}
             </div>
 
             <FooterContainer>
                 <div>
-                    <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />
+                    <img src={imgFilme} alt="poster" />
                 </div>
                 <div>
-                    <p>Tudo em todo lugar ao mesmo tempo</p>
+                    <p>{nomeFilme}</p>
                 </div>
             </FooterContainer>
 
@@ -51,7 +51,7 @@ export default function SessionsPage(props) {
 }
 
 const PageContainer = styled.div`
-    display:  ${props => props.renderPages};
+    display:  flex;
     flex-direction: column;
     font-family: 'Roboto';
     font-size: 24px;

@@ -1,32 +1,26 @@
 import styled from "styled-components"
+import { Link } from "react-router-dom";
 
 export default function HomePage(props) {
-    const {renderPages, setRenderPages } = props;
-
-    function mudarPagina(){
-        const newRenderPages = ['none', 'flex', 'none', 'none'];
-        setRenderPages(newRenderPages);
+    const {DATA, setId } = props;
+    function goToSessions(id){
+        setId(id);
     }
+
     return (
-        <PageContainer renderPages={renderPages} >
+        <PageContainer >
             Selecione o filme
 
             <ListContainer>
-                <MovieContainer>
-                    <img onClick={mudarPagina} src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster"/>
-                </MovieContainer>
+                {DATA && DATA.map((filme) => (
+                    <Link to='/sessions'   key={filme.id}>
+                        <MovieContainer onClick={()=>goToSessions(filme.id)}>
+                            <img src={filme.posterURL} alt="poster"/>
+                        </MovieContainer>
+                    </Link>
+                    )
+                )}
 
-                <MovieContainer>
-                    <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster"/>
-                </MovieContainer>
-
-                <MovieContainer>
-                    <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster"/>
-                </MovieContainer>
-
-                <MovieContainer>
-                    <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster"/>
-                </MovieContainer>
             </ListContainer>
 
         </PageContainer>
@@ -34,7 +28,7 @@ export default function HomePage(props) {
 }
 
 const PageContainer = styled.div`
-    display:  ${props => props.renderPages};
+    display: flex;
     flex-direction: column;
     align-items: center;
     font-family: 'Roboto';
