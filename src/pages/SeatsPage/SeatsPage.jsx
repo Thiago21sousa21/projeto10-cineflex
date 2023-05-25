@@ -39,9 +39,7 @@ export default function SeatsPage(props) {
             Selecione o(s) assento(s)
 
             <SeatsContainer>
-
-                {seats.map((seat)=> (<FCseatItem key={seat.id} seat={seat} /> ))}
-                
+                {seats.map((seat)=> (<FCseatItem key={seat.id} seat={seat} /> ))}                
             </SeatsContainer>
 
             <CaptionContainer>
