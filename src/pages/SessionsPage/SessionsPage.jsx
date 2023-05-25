@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { Link, useParams } from "react-router-dom";
 
 export default function SessionsPage(props) {
     const { id } = props;
@@ -8,11 +9,13 @@ export default function SessionsPage(props) {
     const [nomeFilme, setNomeFilme] = useState([]);
     const [imgFilme, setImgFilme] = useState([]);
 
-    console.log('ID DE SESSIONS PAGE', id);
-    //console.log( dataFilme);    
+    //console.log('ID DE SESSIONS PAGE', id);
+    //console.log( dataFilme);
+    const parametros = useParams();
+    //console.log(parametros, 'estes são os parametros da sessions')
 
     useEffect(() => {
-        const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${id}/showtimes`);
+        const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${parametros.idFilme}/showtimes`);
         promise.then((answer) => {
             console.log('RESPOSTA DAYS DO FILME POR ID (SESSIONN)', answer.data);
             setDaysFilme(answer.data.days);
@@ -31,7 +34,7 @@ export default function SessionsPage(props) {
                     <SessionContainer key ={day.id}>
                         {day.weekday} - {day.date}
                         <ButtonsContainer>
-                            {day.showtimes.map((t)=>(<button key={t.id} >{t.name}</button>))}                     
+                            {day.showtimes.map((t)=>(<Link to={`/assentos/${t.id}`} key={t.id} ><button >{t.name}</button></Link>))}                     
                         </ButtonsContainer>
                     </SessionContainer>
                 ))}
