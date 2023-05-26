@@ -1,7 +1,12 @@
-import styled from "styled-components"
+import styled from "styled-components";
+import { Link, useParams } from "react-router-dom";
 
 export default function SuccessPage(props) {
-    const {la} = props;
+    const {arrReserva, id, checkout, setCheckout } = props;
+
+
+    const cadeiras = checkout.cadeiras;
+
 
     return (
         <PageContainer >
@@ -9,24 +14,25 @@ export default function SuccessPage(props) {
 
             <TextContainer>
                 <strong><p>Filme e sessão</p></strong>
-                <p>Tudo em todo lugar ao mesmo tempo</p>
-                <p>03/03/2023 - 14:00</p>
+                <p>{checkout.titulo}</p>
+                <p>{checkout.data} - {checkout.hora}</p>
             </TextContainer>
 
             <TextContainer>
                 <strong><p>Ingressos</p></strong>
-                <p>Assento 01</p>
+                {cadeiras.map((num, index) =><p key ={index} >Assento {num}</p>)}
+                {/* <p>Assento 01</p>
                 <p>Assento 02</p>
-                <p>Assento 03</p>
+                <p>Assento 03</p> */}
             </TextContainer>
 
             <TextContainer>
                 <strong><p>Comprador</p></strong>
-                <p>Nome: Letícia Chijo</p>
-                <p>CPF: 123.456.789-10</p>
+                <p>Nome: {arrReserva.nome}</p>
+                <p>CPF: {arrReserva.cpf}</p>
             </TextContainer>
 
-            <button>Voltar para Home</button>
+            <Link to='/' ><button onClick ={()=> setCheckout({ titulo:'', data:'', hora:'', cadeiras:[]})}>Voltar para Home</button></Link>
         </PageContainer>
     )
 }

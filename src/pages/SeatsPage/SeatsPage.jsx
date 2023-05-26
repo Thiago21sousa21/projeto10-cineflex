@@ -1,20 +1,21 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import FCseatItem from "./FCseatItem";
 
-export default function SeatsPage(props) {
-    const {idSessao} = useParams();
-    console.log(idSessao, 'esse é o ID da sessao');
-    const [dataSessao, setDataSessao] = useState(undefined);
 
-    console.log(dataSessao,'sessão');
+export default function SeatsPage(props) {
+    const {arrReserva, setArrReserva, setCheckout, checkout }= props;
+    const {idSessao} = useParams();
+    const [dataSessao, setDataSessao] = useState(undefined);
+    const navigate = useNavigate();
+
+
 
     useEffect(()=>{
         const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`);
         promise.then((res)=>{
-            console.log('PUXADA OS ASSENTOS',res);
             setDataSessao(res.data);
         });
         promise.catch(erro=>console.log('DEU ERRO A PUXADA',erro));
@@ -34,12 +35,45 @@ export default function SeatsPage(props) {
     }
     const {day, id, movie , name , seats} = dataSessao;
 
+    function submeterReserva(event){
+        event.preventDefault();
+            
+            let cpf = arrReserva.cpf.replace(/\D/g, '');
+            if(arrReserva.ids.length === 0){ return alert('faltou as cadeiras!')}
+            if (cpf.length !== 11 ) {
+              return alert('cpf invalido');
+            }
+            if (cpf.length > 3) {
+              cpf = cpf.substring(0, 3) + '.' + cpf.substring(3);
+            }
+            if (cpf.length > 7) {
+              cpf = cpf.substring(0, 7) + '.' + cpf.substring(7);
+            }
+            if (cpf.length > 11) {
+              cpf = cpf.substring(0, 11) + '-' + cpf.substring(11);
+            }
+            const promise = axios.post('https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many', arrReserva);
+            promise.then( ans => {console.log('O POST DEU CERTO', ans);});
+            promise.catch(erro => console.log('O POST DEU ERRO', erro));
+            const newArrReserva = {...arrReserva};
+            setArrReserva(newArrReserva);
+            navigate("/sucesso");
+            
+
+    }
+
     return (
         <PageContainer  >
             Selecione o(s) assento(s)
 
             <SeatsContainer>
-                {seats.map((seat)=> (<FCseatItem key={seat.id} seat={seat} /> ))}                
+                {seats.map((seat)=> (<FCseatItem  
+                                        arrReserva={arrReserva} setArrReserva={setArrReserva}
+                                        key={seat.id} 
+                                        seat={seat} 
+                                        id={seat.id}
+                                        setCheckout={setCheckout}  checkout={checkout}
+                                    /> ))}                
             </SeatsContainer>
 
             <CaptionContainer>
@@ -57,14 +91,14 @@ export default function SeatsPage(props) {
                 </CaptionItem>
             </CaptionContainer>
 
-            <FormContainer>
-                Nome do Comprador:
-                <input placeholder="Digite seu nome..." />
+            <FormContainer onSubmit={submeterReserva}>
+                <label htmlFor = 'nome'>Nome do Comprador:</label>
+                <input id='nome' onChange={(e)=>{setArrReserva({ids:[...arrReserva.ids], nome:e.target.value, cpf:arrReserva.cpf})}} placeholder="Digite seu nome..." required/>
 
-                CPF do Comprador:
-                <input placeholder="Digite seu CPF..." />
+                <label htmlFor = 'cpf' >CPF do Comprador:</label>
+                <input id='cpf' onChange={(e)=>{setArrReserva({ids:[...arrReserva.ids], nome:arrReserva.nome, cpf:e.target.value})}}  placeholder="Digite seu CPF..." required/>
 
-                <button  >Reservar Assento(s)</button>
+                <input type='submit' placeholder="Reservar Assento(s)"/>
             </FormContainer>
 
             <FooterContainer>
@@ -103,7 +137,7 @@ const SeatsContainer = styled.div`
     justify-content: center;
     margin-top: 20px;
 `
-const FormContainer = styled.div`
+const FormContainer = styled.form`
     width: calc(100vw - 40px); 
     display: flex;
     flex-direction: column;

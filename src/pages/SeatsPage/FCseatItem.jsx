@@ -3,9 +3,30 @@ import { useState } from "react";
 
 export default   function FCseatItem(props){
     const [selecionado, setSelecionado ]= useState(false);
-    const {seat}=props;
+    const {arrReserva, setArrReserva, seat, id, setCheckout, checkout }= props;
 
-    return(<SeatItem disponivel={seat.isAvailable} selecionado={selecionado} onClick={()=>setSelecionado(true)} >{seat.name}</SeatItem>);
+    function selecionarAssento(id){
+        setSelecionado(true);
+        arrReserva.ids.push(id);
+        setArrReserva(arrReserva);
+        console.log(arrReserva);
+
+        const novoCheckout = {...checkout}
+        const{cadeiras} = novoCheckout;
+        cadeiras.push(seat.name);
+        console.log(cadeiras);
+        setCheckout(novoCheckout);
+
+    }
+
+    return(
+        <SeatItem 
+            disponivel={seat.isAvailable} 
+            selecionado={selecionado} 
+            onClick={()=>selecionarAssento(id)} 
+        >
+            {seat.name}
+        </SeatItem>);
 }
 
 const SeatItem = styled.div`

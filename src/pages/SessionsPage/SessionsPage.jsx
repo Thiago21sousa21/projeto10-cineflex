@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 
 export default function SessionsPage(props) {
-    const { id } = props;
+    const { id, setCheckout, checkout } = props;
     const [daysFilme, setDaysFilme] = useState([]);
     const [nomeFilme, setNomeFilme] = useState([]);
     const [imgFilme, setImgFilme] = useState([]);
@@ -21,10 +21,20 @@ export default function SessionsPage(props) {
             setDaysFilme(answer.data.days);
             setNomeFilme(answer.data.title);
             setImgFilme(answer.data.posterURL);
+
         });
         promise.catch(error => console.log(error));
 
     }, []);
+    
+    function pegaCheckout(data, hora){
+        const novoCheckout = {...checkout}
+        novoCheckout.titulo =  nomeFilme;
+        novoCheckout.data = data;
+        novoCheckout.hora = hora;
+        setCheckout(novoCheckout);
+
+    }
 
     return (
         <PageContainer  >
@@ -34,7 +44,7 @@ export default function SessionsPage(props) {
                     <SessionContainer key ={day.id}>
                         {day.weekday} - {day.date}
                         <ButtonsContainer>
-                            {day.showtimes.map((t)=>(<Link to={`/assentos/${t.id}`} key={t.id} ><button >{t.name}</button></Link>))}                     
+                            {day.showtimes.map((t)=>(<Link onClick={pegaCheckout(day.date,t.name) }to={`/assentos/${t.id}`} key={t.id} ><button >{t.name}</button></Link>))}                     
                         </ButtonsContainer>
                     </SessionContainer>
                 ))}

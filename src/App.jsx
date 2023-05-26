@@ -11,6 +11,8 @@ export default function App() {
     axios.defaults.headers.common['Authorization'] = 'seuTokenDeAcessoNoHUB';
     const [DATA , setDATA ] = useState([]);
     const [id, setId]=useState(1);
+    const [arrReserva, setArrReserva]=useState({ids:[],name:'',cpf:''})
+    const [checkout, setCheckout ] = useState({ titulo:'', data:'', hora:'', cadeiras:[]});
 
     useEffect(()=>{
         const promise = axios.get('https://mock-api.driven.com.br/api/v8/cineflex/movies');
@@ -26,10 +28,29 @@ export default function App() {
         <BrowserRouter>
            <NavContainer>CINEFLEX</NavContainer>
            <Routes>
-                < Route path='/' element={<HomePage DATA={DATA} setId={setId} />}/>
-                < Route path='/assentos/:idSessao' element={<SeatsPage  DATA={DATA} />} />
-                < Route path = '/sessoes/:idFilme' element={<SessionsPage  DATA={DATA} id={id}   />} />
-                < Route path='/sucesso' element={<SuccessPage DATA={DATA} />} />
+                < Route path='/' element={<HomePage 
+                        DATA={DATA} 
+                        setId={setId} 
+                    />}
+                />
+                < Route path='/assentos/:idSessao' element={<SeatsPage 
+                        arrReserva={arrReserva} setArrReserva={setArrReserva} 
+                        DATA={DATA} 
+                        setCheckout={setCheckout}  checkout={checkout}
+                    />} 
+                />
+                < Route path = '/sessoes/:idFilme' element={<SessionsPage  
+                        DATA={DATA} 
+                        id={id}
+                        setCheckout={setCheckout}  checkout={checkout}
+                    />} 
+                />
+                < Route path='/sucesso' element={<SuccessPage 
+                        arrReserva={arrReserva} setArrReserva={setArrReserva} 
+                        DATA={DATA} 
+                        setCheckout={setCheckout}  checkout={checkout}
+                    />}
+                 />
             </Routes>
         </BrowserRouter>
     )
