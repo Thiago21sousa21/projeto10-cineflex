@@ -9,7 +9,7 @@ export default function FCseatItem(props) {
 
         const newObj = {...arrReserva};
 
-        if (disponivel == false) return;
+        if (disponivel == false) return alert('assento indisponivel');
         if (arrReserva.ids.length === 0 || !arrReserva.ids.includes(id) ) {
             setSelecionado(true);
             newObj.ids.push(id);
