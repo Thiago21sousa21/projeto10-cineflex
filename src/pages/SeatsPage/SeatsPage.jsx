@@ -53,7 +53,9 @@ export default function SeatsPage(props) {
               cpf = cpf.substring(0, 11) + '-' + cpf.substring(11);
             }
             const promise = axios.post('https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many', arrReserva);
-            promise.then( ans => {console.log('O POST DEU CERTO', ans);});
+            promise.then( ans => {
+                //console.log('O POST DEU CERTO', ans);
+            });
             promise.catch(erro => console.log('O POST DEU ERRO', erro));
             const newArrReserva = {...arrReserva};
             setArrReserva(newArrReserva);

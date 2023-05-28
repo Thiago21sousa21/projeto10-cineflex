@@ -12,12 +12,12 @@ export default function App() {
     const [DATA , setDATA ] = useState([]);
     const [id, setId]=useState(1);
     const [arrReserva, setArrReserva]=useState({ids:[],name:'',cpf:''})
-    const [checkout, setCheckout ] = useState({ titulo:'', data:'', hora:'', cadeiras:[]});
+    let [checkout, setCheckout ] = useState({ cadeiras:[], titulo:'', data:'', hora:''});
 
     useEffect(()=>{
         const promise = axios.get('https://mock-api.driven.com.br/api/v8/cineflex/movies');
         promise.then( resposta => {
-            console.log('DADOS API DO COMPONENTE APP' ,resposta.data);
+            //console.log('DADOS API DO COMPONENTE APP' ,resposta.data);
             setDATA(resposta.data)
         });
         promise.catch((erro)=>console.log(erro));

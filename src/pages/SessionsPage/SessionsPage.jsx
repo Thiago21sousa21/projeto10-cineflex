@@ -5,8 +5,8 @@ import { Link, useParams } from "react-router-dom";
 
 export default function SessionsPage(props) {
     const { id, setCheckout, checkout } = props;
-    const [daysFilme, setDaysFilme] = useState([]);
-    const [nomeFilme, setNomeFilme] = useState([]);
+    let [daysFilme, setDaysFilme] = useState([]);
+    let [nomeFilme, setNomeFilme] = useState([]);
     const [imgFilme, setImgFilme] = useState([]);
 
     //console.log('ID DE SESSIONS PAGE', id);
@@ -17,10 +17,11 @@ export default function SessionsPage(props) {
     useEffect(() => {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${parametros.idFilme}/showtimes`);
         promise.then((answer) => {
-            console.log('RESPOSTA DAYS DO FILME POR ID (SESSIONN)', answer.data);
-            setDaysFilme(answer.data.days);
+            //console.log('RESPOSTA DAYS DO FILME POR ID (SESSIONN)', answer.data);
+            
             setNomeFilme(answer.data.title);
-            setImgFilme(answer.data.posterURL);
+            setImgFilme  (answer.data.posterURL);
+            setDaysFilme  (answer.data.days);
 
         });
         promise.catch(error => console.log(error));
@@ -28,12 +29,11 @@ export default function SessionsPage(props) {
     }, []);
     
     function pegaCheckout(data, hora){
-        const novoCheckout = {...checkout}
-        novoCheckout.titulo =  nomeFilme;
-        novoCheckout.data = data;
-        novoCheckout.hora = hora;
-        setCheckout(novoCheckout);
-
+        checkout.titulo =  nomeFilme;
+        // console.log(data);
+        // console.log(hora);
+        checkout.data = data;
+        checkout.hora = hora;
     }
 
     return (
@@ -44,7 +44,7 @@ export default function SessionsPage(props) {
                     <SessionContainer key ={day.id}>
                         {day.weekday} - {day.date}
                         <ButtonsContainer>
-                            {day.showtimes.map((t)=>(<Link onClick={pegaCheckout(day.date,t.name) }to={`/assentos/${t.id}`} key={t.id} ><button >{t.name}</button></Link>))}                     
+                            {day.showtimes.map((t)=>(<Link onClick={()=> pegaCheckout(day.date, t.name) }to={`/assentos/${t.id}`} key={t.id} ><button >{t.name}</button></Link>))}                     
                         </ButtonsContainer>
                     </SessionContainer>
                 ))}
