@@ -50,7 +50,7 @@ export default function SessionsPage(props) {
                 ))}
             </div>
 
-            <FooterContainer>
+            <FooterContainer  data-test="footer">
                 <div>
                     <img src={imgFilme} alt="poster" />
                 </div>
