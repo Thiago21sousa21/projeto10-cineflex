@@ -95,10 +95,10 @@ export default function SeatsPage(props) {
 
             <FormContainer onSubmit={submeterReserva}>
                 <label htmlFor = 'nome'>Nome do Comprador:</label>
-                <input data-test="client-name" id='nome' onChange={(e)=>{setArrReserva({ids:[...arrReserva.ids], nome:e.target.value, cpf:arrReserva.cpf})}} placeholder="Digite seu nome..." required/>
+                <input value={arrReserva.name} data-test="client-name" id='nome' onChange={(e)=>{setArrReserva({ids:[...arrReserva.ids], name:e.target.value, cpf:arrReserva.cpf})}} placeholder="Digite seu nome..." required/>
 
                 <label htmlFor = 'cpf' >CPF do Comprador:</label>
-                <input data-test="client-cpf" id='cpf' onChange={(e)=>{setArrReserva({ids:[...arrReserva.ids], nome:arrReserva.nome, cpf:e.target.value})}}  placeholder="Digite seu CPF..." required/>
+                <input value={arrReserva.cpf}  data-test="client-cpf" id='cpf' onChange={(e)=>{setArrReserva({ids:[...arrReserva.ids], name:arrReserva.name, cpf:e.target.value})}}  placeholder="Digite seu CPF..." required/>
 
                 <button data-test="book-seat-btn" >Reservar Assento(s)</button>
             </FormContainer>

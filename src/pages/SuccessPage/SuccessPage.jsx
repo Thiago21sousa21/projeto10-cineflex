@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
 
 export default function SuccessPage(props) {
-    const {arrReserva, id, checkout, setCheckout } = props;
+    const {arrReserva, id, checkout, setCheckout, setArrReserva } = props;
 
 
     const cadeiras = checkout.cadeiras;
@@ -28,11 +28,11 @@ export default function SuccessPage(props) {
 
             <TextContainer data-test="client-info">
                 <strong><p>Comprador</p></strong>
-                <p>Nome: {arrReserva.nome}</p>
+                <p>Nome: {arrReserva.name}</p>
                 <p>CPF: {arrReserva.cpf}</p>
             </TextContainer>
 
-            <Link to='/' data-test="go-home-btn" onClick ={()=>setCheckout({ titulo:'', data:'', hora:'', cadeiras:[]})}><button >Voltar para Home</button></Link>
+            <Link to='/' data-test="go-home-btn" onClick ={()=>{setCheckout({ titulo:'', data:'', hora:'', cadeiras:[]});setArrReserva({ids:[], name:'',cpf:''})}}><button >Voltar para Home</button></Link>
         </PageContainer>
     )
 }

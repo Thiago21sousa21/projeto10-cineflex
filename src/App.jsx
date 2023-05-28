@@ -11,7 +11,7 @@ export default function App() {
     axios.defaults.headers.common['Authorization'] = 'seuTokenDeAcessoNoHUB';
     const [DATA , setDATA ] = useState([]);
     const [id, setId]=useState(1);
-    const [arrReserva, setArrReserva]=useState({ids:[],name:'',cpf:''})
+    const [arrReserva, setArrReserva]=useState({ids:[], name:'',cpf:''})
     let [checkout, setCheckout ] = useState({ cadeiras:[], titulo:'', data:'', hora:''});
 
     useEffect(()=>{
