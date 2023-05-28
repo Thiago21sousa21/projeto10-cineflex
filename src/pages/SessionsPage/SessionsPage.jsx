@@ -41,10 +41,10 @@ export default function SessionsPage(props) {
             Selecione o horário
             <div>
                 {daysFilme && daysFilme.map((day) => (
-                    <SessionContainer key ={day.id}>
+                    <SessionContainer data-test="movie-day" key ={day.id}>
                         {day.weekday} - {day.date}
                         <ButtonsContainer>
-                            {day.showtimes.map((t)=>(<Link onClick={()=> pegaCheckout(day.date, t.name) }to={`/assentos/${t.id}`} key={t.id} ><button >{t.name}</button></Link>))}                     
+                            {day.showtimes.map((t)=>(<Link data-test="showtime" onClick={()=> pegaCheckout(day.date, t.name) }to={`/assentos/${t.id}`} key={t.id} ><button >{t.name}</button></Link>))}                     
                         </ButtonsContainer>
                     </SessionContainer>
                 ))}

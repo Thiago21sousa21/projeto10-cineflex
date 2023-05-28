@@ -13,7 +13,7 @@ export default function HomePage(props) {
 
             <ListContainer>
                 {DATA && DATA.map((filme) => (
-                    <Link to={`/sessoes/${filme.id}`}   key={filme.id}>
+                    <Link data-test="movie" to={`/sessoes/${filme.id}`}  key={filme.id}>
                         <MovieContainer onClick={()=>goToSessions(filme.id)}>
                             <img src={filme.posterURL} alt="poster"/>
                         </MovieContainer>

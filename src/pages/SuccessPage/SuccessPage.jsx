@@ -12,13 +12,13 @@ export default function SuccessPage(props) {
         <PageContainer >
             <h1>Pedido feito <br /> com sucesso!</h1>
 
-            <TextContainer>
+            <TextContainer data-test="movie-info">
                 <strong><p>Filme e sessão</p></strong>
                 <p>{checkout.titulo}</p>
                 <p>{checkout.data} - {checkout.hora}</p>
             </TextContainer>
 
-            <TextContainer>
+            <TextContainer data-test="seats-info">
                 <strong><p>Ingressos</p></strong>
                 {cadeiras.map((num, index) =><p key ={index} >Assento {num}</p>)}
                 {/* <p>Assento 01</p>
@@ -26,13 +26,13 @@ export default function SuccessPage(props) {
                 <p>Assento 03</p> */}
             </TextContainer>
 
-            <TextContainer>
+            <TextContainer data-test="client-info">
                 <strong><p>Comprador</p></strong>
                 <p>Nome: {arrReserva.nome}</p>
                 <p>CPF: {arrReserva.cpf}</p>
             </TextContainer>
 
-            <Link to='/' ><button onClick ={()=> setCheckout({ titulo:'', data:'', hora:'', cadeiras:[]})}>Voltar para Home</button></Link>
+            <Link to='/' data-test="go-home-btn" onClick ={()=>setCheckout({ titulo:'', data:'', hora:'', cadeiras:[]})}><button >Voltar para Home</button></Link>
         </PageContainer>
     )
 }

@@ -44,7 +44,7 @@ export default function FCseatItem(props) {
 
     }
 
-    return (<SeatItem disponivel={seat.isAvailable} selecionado={selecionado} onClick={() => selecionarAssento(id, seat.isAvailable, seat.name)} >{seat.name}</SeatItem>)
+    return (<SeatItem data-test="seat" disponivel={seat.isAvailable} selecionado={selecionado} onClick={() => selecionarAssento(id, seat.isAvailable, seat.name)} >{seat.name}</SeatItem>)
 }
 
 const SeatItem = styled.div`
